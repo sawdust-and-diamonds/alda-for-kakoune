@@ -4,7 +4,6 @@
 # v.0.0.1 - Very basic implementation!
 # What would you like to see in this plugin? Let me know!
 
-
 # TODO: Autocomplete / reference for midi instruments
 #       Clojure in-line highlighting
 #       Test all alda featuresd-do they survive the journey to the command line?
@@ -154,6 +153,7 @@ define-command alda-clear-history -override -docstring %{
 
 # Key bindings for alda-mode
 # --------------------------
+
 declare-user-mode alda
 map -docstring "Start alda server in background"     global alda a ':alda-start-server<ret>'
 map -docstring "Stop alda"                           global alda s ':stop-alda<ret>'

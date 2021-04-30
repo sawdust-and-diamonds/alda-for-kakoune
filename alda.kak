@@ -13,9 +13,6 @@ hook global BufCreate .*[.]alda %{
 hook global WinSetOption filetype=alda %{
     require-module alda
     set-option buffer extra_word_chars '_' '-'
-
-    hook window ModeChange pop:insert:.* -group alda-trim-indent alda-trim-indent 
-    hook window InsertChar '\n' -group alda-indent alda-insert-newline
 }
 
 hook -group alda-highlight global WinSetOption filetype=alda %{
@@ -28,38 +25,54 @@ provide-module alda %{
 # Highlighting
 # ------------
 
+# There's not a lot going on here, partly because I don't have the full specification for
+# the alda language. I've asked the author for more details, but otherwise this is stuff
+# to be worked on iteratively.
+
+# Alda 2.0 is coming soon!
+# So when that's released, there'll no doubt be better information, and I'll have to really
+# get this plugin polished...
+
 add-highlighter shared/alda regions
 add-highlighter shared/alda/code default-region group
 add-highlighter shared/alda/comment region '#' '\n' fill comment
-# add-highlighter shared/alda region '"' '(?<!\\)"' fill string
+
+# Todo: Inline clojure
 # add-highlighter shared/alda region '(' ')' fill clojure
 
-# Can an instument's alias have any number of characters?
-# Is there a better way to write a-zA-Z0-9_-?
-#  What does \w mean, is it file dependent?
+# Any valid alda named parameters 
 add-highlighter shared/alda/code/ regex ([a-zA-Z]{2,}[a-zA-Z0-9_]*) 0:attribute
+# Built-inattributes
 add-highlighter shared/alda/code/ regex (vol(?:ume)?|pan(?:ning)?|tempo|quant(?:iz(?:ation|e))?|track-vol(?:ume)?|transpose|key-sig(?:nature)?)!?(\s+(?:[-+]?\d+)|(?:\s+\[[^\n\]]*\]))? 1:attribute 2:value
+# Global attributes
 add-highlighter shared/alda/code/ regex \((vol(?:ume)?|pan(?:ning)?|tempo|quant(?:iz(?:ation|e))?|track-vol(?:ume)?|transpose|key-sig(?:nature)?)!?(\s+(?:[-+]?\d+)|(?:\s+\[[^\n\]]*\]))?\) 1:attribute 2:value
+# Notes
 add-highlighter shared/alda/code/ regex \b([a-gr][+-]*)(\d*\.*(?:~\d*\.*)*)\b 1:default 2:default
+# Instruments
 add-highlighter shared/alda/code/ regex ([a-zA-Z][a-zA-Z0-9_-]*(\s*"[a-zA-Z0-9_-]*")?:)) 0:keyword
+# Voices
 add-highlighter shared/alda/code/ regex ([vV][0-9]+:) 0:module
+# Bar lines
 add-highlighter shared/alda/code/ regex (\|) 0:comment
+# Octaves
 add-highlighter shared/alda/code/ regex (>|<) 0:function
 add-highlighter shared/alda/code/ regex (o\d+) 0:function
+# Repetitions
 add-highlighter shared/alda/code/ regex (\*\d+) 0:value
 
 # Commands
 # --------
 
-define-command alda-trim-indent -hidden -override %{
-    execute-keys -draft -itersel <a-x> s \h+$ <ret> d
-}
+# TODO: As I'm not aware if alda requires indentation, I'm leaving this empty for now.
+#       An interesting idea from the Emacs plugin is to allow formatting alda, into, for
+#		example, rows and columns.
 
-define-command alda-insert-newline -hidden -override %{
-    nop # I am a noop
-}
+# define-command alda-trim-indent -hidden -override %{
+#     nop
+# }
 
-# End
-# ---
+# define-command alda-insert-newline -hidden -override %{
+#     nop
+# }
 
 }

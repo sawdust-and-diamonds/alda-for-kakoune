@@ -72,4 +72,4 @@ then, anything you send will follow on from that point—you'll default to the p
 
 ##License
 
-I'm releasing this under the MIT license.
+I'm releasing this under the MIT license, unless alda-mode decide to sue me for copyright breach! Hopefully everything in this current implementation will count as original.
