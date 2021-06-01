@@ -1,4 +1,4 @@
-# alda-for-kak
+# alda-for-kakoune
 
 Run the wonderful [alda](https://github.com/alda-lang/alda) musical programming language from inside the [kakoune](https://github.com/mawww/kakoune) editor. Make music with kak!
 
